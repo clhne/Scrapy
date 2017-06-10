@@ -1,5 +1,6 @@
-# coding:utf8
+# -*- coding: GBK-*-
 from bs4 import BeautifulSoup
+import re
 
 html_doc = """
 <html><head><title>The Dormouse's story</title></head>
@@ -17,7 +18,20 @@ and they lived at the bottom of a well.</p>
 
 soup = BeautifulSoup(html_doc,'html.parser',from_encoding = 'utf-8')
 
-print '鑾峰彇鎵�鏈夌殑閾炬帴'
+print '获取所有的链接'
 links = soup.find_all('a')
 for link in links:
     print link.name, link['href'],link.get_text()
+
+
+print '获取lacie的链接'
+link_node = soup.find('a',href = 'http://example.com/lacie')
+print link_node.name,link_node['href'],link_node.get_text()
+
+print "正则匹配"
+link_node = soup.find('a',href=re.compile(r"ill"))
+print link_node.name,link_node['href'],link_node.get_text()
+
+print '获取P段落文字'
+p_node = soup.find('p',class_="title")
+print p_node.name,p_node.get_text()
